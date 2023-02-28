@@ -1,35 +1,41 @@
 [
-  {
-    "_id": "c6a3987d-3f5e-4d8b-ad63-7b618743e828",
-    "colId": "history",
-    "containerId": "",
-    "name": "localhost:8000/chat",
-    "url": "localhost:8000/chat/create",
-    "method": "POST",
-    "sortNum": 0,
-    "created": "2023-02-28T13:56:22.602Z",
-    "modified": "2023-02-28T14:30:36.282Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"room_visibility\":\"private\",\n  \"room_chat_sender\":1,\n  \"room_chat_receiver\" :4\n}",
-      "form": []
+    {
+        "_id": "c6a3987d-3f5e-4d8b-ad63-7b618743e828",
+        "colId": "history",
+        "containerId": "",
+        "name": "localhost:8000/chat",
+        "url": "localhost:8000/products?category=cereals",
+        "method": "GET",
+        "sortNum": 0,
+        "created": "2023-02-28T13:56:22.602Z",
+        "modified": "2023-07-18T17:26:20.677Z",
+        "headers": [],
+        "params": [
+            {
+                "name": "category",
+                "value": "cereals",
+                "isPath": false
+            }
+        ],
+        "body": {
+            "type": "json",
+            "raw": "{\n  \"room_visibility\":\"private\",\n  \"room_chat_sender\":1,\n  \"room_chat_receiver\" :4\n}",
+            "form": []
+        },
+        "tests": []
     },
-    "tests": []
-  },
-  {
-    "_id": "e417d6e7-7c66-409b-af54-8f596f89a5f8",
-    "colId": "history",
-    "containerId": "",
-    "name": "https://www.thunderclient.com/welcome",
-    "url": "https://www.thunderclient.com/welcome",
-    "method": "POST",
-    "sortNum": 0,
-    "created": "2023-07-14T18:25:23.919Z",
-    "modified": "2023-07-14T18:25:23.919Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  }
+    {
+        "_id": "e417d6e7-7c66-409b-af54-8f596f89a5f8",
+        "colId": "history",
+        "containerId": "",
+        "name": "https://www.thunderclient.com/welcome",
+        "url": "https://www.thunderclient.com/welcome",
+        "method": "POST",
+        "sortNum": 0,
+        "created": "2023-07-14T18:25:23.919Z",
+        "modified": "2023-07-14T18:25:23.919Z",
+        "headers": [],
+        "params": [],
+        "tests": []
+    }
 ]

@@ -5,19 +5,67 @@ import assert from "assert";
 import { encryptPassword } from "../Utilities/functions/encrypt.function";
 
 
+
+//getting all Users
+
 export const getAllUSers = async (req: Request, res: Response) => {
-    try {
+    console
+        .log(req.query)
 
+    if (req.query.role?.length == 0) {
+        console.log("no roles supplied")
+        try {
+            const users = await appDataSource.getRepository(Login).find({});
+            res.send(users)
+        }
+        catch (err) {
+            res.send([])
+        }
 
-        const users = await appDataSource.getRepository(Login).find();
-        res.send(users)
     }
-    catch (err) {
-        res.send([])
+    else if (req.query.role == 'All') {
+        console.log("roles are all")
+        try {
+            const users = await appDataSource.getRepository(Login).find();
+            res.send(users)
+        }
+        catch (err) {
+            res.send([])
+        }
     }
+    else if (req.query.role == "Admin") {
+        console.log("getting admins")
+        try {
+            const users = await appDataSource.getRepository(Login).find({
+                where: {
+                    login_role: "ADMIN"
+                }
+            });
+            res.send(users)
+        }
+        catch (err) {
+            res.send([])
+        }
+    }
+    else if (req.query.role == "User") {
+        try {
+            const users = await appDataSource.getRepository(Login).find({
+                where: {
+                    login_role: "USER"
+                }
+            });
+            res.send(users)
+        }
+        catch (err) {
+            res.send([])
+        }
+
+    }
+
 
 
 }
+
 
 
 
@@ -70,3 +118,29 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
 
 }
+
+// a controller for making a user an admin
+export const updateUser = async (req: Request, res: Response) => {
+    console.log("update route accessed")
+    console.log(req.body)
+    try {
+        const updates = await appDataSource.createQueryBuilder()
+            .update(Login)
+            .set({ login_role: "ADMIN" })
+            .where("login_id=:id", { id: req.body.update_id })
+            .execute()
+
+        //@ts-ignore
+        updates.affected > 0 ? res.json({ msg: "user updated successfully", update: true }) : res.json({ msg: "unable to update the user", updated: false })
+
+
+
+    } catch (error) {
+
+        console.log(error)
+        res.json({ msg: "unable to update the user", update: false })
+
+    }
+
+}
+

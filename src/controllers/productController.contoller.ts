@@ -92,11 +92,9 @@ export const getProducts = async (req: Request, res: Response) => {
 
     const productsRepo = appDataSource.getRepository(Product)
     console.log(req.query)
+    console.log(req.query.region?.length)
 
-    if (req.query.category == "") {
-
-
-
+    if (req.query.category == " " && req.query.region == '') {
         try {
             const products = await productsRepo.find({
                 relations: {
@@ -112,7 +110,9 @@ export const getProducts = async (req: Request, res: Response) => {
 
         }
     }
-    else {
+
+    else if (req.query.region?.length == 0 && req.query.category !== " ") {
+        console.log("i have a category but not a region")
         try {
             const products = await productsRepo.find({
                 //@ts-ignore
@@ -128,6 +128,59 @@ export const getProducts = async (req: Request, res: Response) => {
             }
 
             );
+            res.send(products)
+        } catch (error) {
+            res.send([])
+
+        }
+    }
+
+    else if (req.query.region != " " && req.query.category?.length == 0) {
+        try {
+            const products = await productsRepo.find({
+                //@ts-ignore
+                where: {
+                    product_location: req.query.location
+
+                },
+                relations: {
+                    image: true,
+                    login: true
+                }
+
+            }
+
+            );
+            res.send(products)
+        } catch (error) {
+            res.send([])
+
+        }
+
+    }
+
+
+
+    else {
+        try {
+            const products = await productsRepo.find({
+                //@ts-ignore
+                where: {
+                    product_category: req.query.category,
+                    product_location: req.query.region
+
+
+                },
+                relations: {
+                    image: true,
+                    login: true
+                }
+
+            }
+
+            );
+            console.log(products)
+
             res.send(products)
         } catch (error) {
             res.send([])
@@ -374,6 +427,52 @@ export const productPromotedUpdate = async (req: Request, res: Response) => {
 
     }
 
+
+}
+
+// a route for revoking a promoted product
+export const productPromotedRevoke = async (req: Request, res: Response) => {
+    try {
+        const promoted = await appDataSource.createQueryBuilder()
+            .update(Promoted)
+            .set({ promoted_product_status: "revoked" })
+            .where("promoted_id =:promoted_id", { promoted_id: req.body.promoted_id })
+            .execute()
+
+        console.log(promoted)
+
+        if (promoted.affected! > 0) {
+            console.log("updated a promoted column")
+            const update_product = await appDataSource.createQueryBuilder()
+                .update(Product)
+                .set({ product_promoted: false })
+                .where("product_id = :product_id", { product_id: req.body.product_id })
+                .execute()
+
+            console.log(update_product)
+
+            // @ts-ignore
+            update_product.affected > 0 ? res.json({ msg: "revoked Successfully", revoked: true }) : res.json({ msg: "approval failed", revoked: false })
+        }
+        else {
+            res.json({ msg: "revoked failed", revoked: false })
+
+        }
+
+
+
+
+
+
+
+
+    }
+    catch (err) {
+        console.log(err)
+
+        res.json({ msg: "revoked failed", revoked: false })
+
+    }
 
 }
 

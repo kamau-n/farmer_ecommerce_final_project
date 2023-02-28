@@ -14,7 +14,7 @@ export const requireAdmin = (req: Request, res: Response, next: NextFunction) =>
         console.log("there is a user logged in")
         const decode = jwt.verify(accessToken || refreshToken, "i hve a secret")
         //@ts-ignore
-        if (decode && decode.role == "Admin") {
+        if (decode && decode.role == "ADMIN") {
             // @ts-ignore
             req.user = decode
             console.log(decode)
