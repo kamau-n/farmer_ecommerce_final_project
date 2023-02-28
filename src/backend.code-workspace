@@ -1,9 +1,12 @@
 {
     "folders": [
-		{
-			"path": ".."
-		}
-	],
+        {
+            "path": ".."
+        },
+        {
+            "path": "../../../Developer/Next/farmer_app_client"
+        }
+    ],
     "settings": {
         "typescript.tsdk": "backend/node_modules/typescript/lib"
     }

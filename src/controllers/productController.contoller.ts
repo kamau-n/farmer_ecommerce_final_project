@@ -24,10 +24,15 @@ export const uploadProduct = async (req: Request, res: Response) => {
             .values(req.body)
             .execute()
 
-        res.json({ msg: "product uploaded successfully", created: true })
+        const new_product_id = product.identifiers[0].product_id
+        res.json({ msg: "product uploaded successfully", created: true, new_product_id: new_product_id })
+        //@ts-ignore
+
+        //console.log(new_product_id[0].product_id)
     }
     catch (err) {
         res.json({ msg: "unable to upload a new Product", created: false })
+        console.log(err)
     }
 
 
@@ -77,7 +82,13 @@ export const getProducts = async (req: Request, res: Response) => {
     const productsRepo = appDataSource.getRepository(Product)
 
     try {
-        const products = await productsRepo.find();
+        const products = await productsRepo.find({
+            relations: {
+                image: true
+            }
+        }
+
+        );
         res.send(products)
     } catch (error) {
         res.send([])
@@ -93,7 +104,10 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const imageUpload = async (req: Request, res: Response) => {
 
-    console.log(req.body.image_product_id)
+    //@ts-ignore
+    console.log(req.files)
+    // console.log((req.body))
+
     const imageRepo = appDataSource.getRepository(Image)
 
     if (!req.files) {

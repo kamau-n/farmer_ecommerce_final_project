@@ -60,13 +60,26 @@
     "method": "POST",
     "sortNum": 40000,
     "created": "2023-06-17T10:35:30.340Z",
-    "modified": "2023-06-17T16:14:19.561Z",
+    "modified": "2023-06-19T13:20:05.816Z",
     "headers": [],
     "params": [],
     "body": {
-      "type": "json",
-      "raw": "{\n  \"product_name\" :\"Peas\",\n  \"product_price\" :\"11000 per bag\",\n  \"product_quantity\" :\"100 bags\",\n  \"product_category\":\"Cereals\",\n  \"product_login_id\" :\"1\",\n  \"id\":3\n  \n}",
-      "form": []
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "skdjhfd",
+          "value": "dfgdf"
+        },
+        {
+          "name": "sdgdf",
+          "value": "ddf"
+        },
+        {
+          "name": "sdfsd",
+          "value": "sdfsd"
+        }
+      ]
     },
     "tests": []
   },
@@ -79,7 +92,7 @@
     "method": "POST",
     "sortNum": 50000,
     "created": "2023-06-17T12:18:00.713Z",
-    "modified": "2023-02-28T12:58:57.078Z",
+    "modified": "2023-06-19T12:59:40.813Z",
     "headers": [],
     "params": [],
     "body": {
@@ -88,25 +101,25 @@
       "form": [
         {
           "name": "image_product_id",
-          "value": "3"
+          "value": "6"
         }
       ],
       "files": [
         {
           "name": "image",
-          "value": "../../../Pictures/Android/index.jpeg"
+          "value": "../../../peas2.jpeg"
         },
         {
           "name": "image",
-          "value": "../../../Pictures/Android/paerks.jpeg"
+          "value": "../../../peas.jpeg"
         },
         {
           "name": "image",
-          "value": "../../../Pictures/Android/alex--inv2Atp5fk-unsplash.jpg"
+          "value": "../../../peas3.webp"
         },
         {
           "name": "image",
-          "value": "../../../Pictures/Android/photo-1532882017279-3c5a1ddbba41.jpeg"
+          "value": "../../../peas4.jpeg"
         }
       ]
     },

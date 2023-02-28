@@ -12,6 +12,8 @@ export class Product {
 
     @Column()
     product_quantity!: string;
+    @Column()
+    product_decription!: string;
 
     @Column()
     product_price!: string
