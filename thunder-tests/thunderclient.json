@@ -1,0 +1,115 @@
+[
+  {
+    "_id": "eda88722-3bd2-40fa-82eb-5b3085a593e0",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "sign_user",
+    "url": "localhost:8000/register",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2023-02-28T13:22:31.803Z",
+    "modified": "2023-06-17T16:10:43.547Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"login_email\" :\"kamaun@gmail.com\",\n  \"login_password\":\"123456\",\n  \"login_location\" :\"Nakuru\",\n  \"login_contact:\" :345464645,\n  \"login_username\" :\"kamau Harrison\",\n  \"login_role\" :\"User\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "5c1b4988-fd5a-4c55-9aaf-ce1542452324",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "login",
+    "url": "localhost:8000/login",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2023-02-28T14:21:56.592Z",
+    "modified": "2023-06-16T20:25:30.252Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"login_email\" :\"kamaun@gmail.com\",\n  \"login_password\" :\"123456\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "36845dfd-ecac-4626-be1a-bde31d0ef8c1",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "getUser",
+    "url": "localhost:8000/getUser",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2023-06-16T20:25:50.009Z",
+    "modified": "2023-06-16T20:26:18.359Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "a17fd462-0651-4e5a-a6f4-f6908d0b6c20",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "uploadProduct",
+    "url": "localhost:8000/product/upload",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2023-06-17T10:35:30.340Z",
+    "modified": "2023-06-17T16:14:19.561Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"product_name\" :\"Peas\",\n  \"product_price\" :\"11000 per bag\",\n  \"product_quantity\" :\"100 bags\",\n  \"product_category\":\"Cereals\",\n  \"product_login_id\" :\"1\",\n  \"id\":3\n  \n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "baf37f21-559f-45e8-aa7e-83a32fd48ef5",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "imageUpload",
+    "url": "localhost:8000/product/images/upload",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2023-06-17T12:18:00.713Z",
+    "modified": "2023-02-28T12:58:57.078Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "image_product_id",
+          "value": "3"
+        }
+      ],
+      "files": [
+        {
+          "name": "image",
+          "value": "../../../Pictures/Android/index.jpeg"
+        },
+        {
+          "name": "image",
+          "value": "../../../Pictures/Android/paerks.jpeg"
+        },
+        {
+          "name": "image",
+          "value": "../../../Pictures/Android/alex--inv2Atp5fk-unsplash.jpg"
+        },
+        {
+          "name": "image",
+          "value": "../../../Pictures/Android/photo-1532882017279-3c5a1ddbba41.jpeg"
+        }
+      ]
+    },
+    "tests": []
+  }
+]
