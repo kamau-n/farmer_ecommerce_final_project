@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Login } from "./login.model";
 import { Image } from "./images.model";
 
@@ -20,6 +20,17 @@ export class Product {
 
     @Column()
     product_category!: string
+
+    @Column({ nullable: false })
+    product_login_id!: string
+
+    @Column({ nullable: true })
+    product_location!: string;
+
+    @CreateDateColumn({ nullable: true })
+    product_posted_on!: Date
+
+
 
 
 

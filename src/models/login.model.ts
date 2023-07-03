@@ -1,6 +1,8 @@
-import { Column, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Product } from "./product.model";
 import { Messages } from "./messages.model";
+import { Room } from "./room.model";
+import { Complaints } from "./complaints.model";
 
 
 @Entity()
@@ -27,14 +29,29 @@ export class Login {
     @Column()
     login_contact!: string
 
+    @Column({ default: false })
+    login_terms!: boolean
+
+
+    @CreateDateColumn({ nullable: true })
+    login_created_on !: Date
 
 
     @OneToMany(type => Product, (product) => product.login, { onDelete: "CASCADE" })
     product!: Product[];
 
 
-    @ManyToMany(type => Messages, (messages) => messages.login, { onDelete: "CASCADE" })
-    messages!: Messages;
+
+    @OneToMany(type => Login, (login) => login.room, { onDelete: "CASCADE" })
+    room!: Room[];
+
+    // @OneToMany(type => Complaints, (complaints) => complaints.login, { onDelete: "CASCADE" })
+    // complaints!: Complaints[];
+
+
+
+    @OneToOne(type => Messages, (messages) => messages.login, { onDelete: "CASCADE" })
+    messages!: Messages[]
 
 
 

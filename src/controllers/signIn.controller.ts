@@ -36,6 +36,7 @@ export const signIn = async (req: Request, res: Response) => {
 
             if (User.length != 0) {
                 if (await decryptPassword(req.body.login_password, new_user.login_password)) {
+                    console.log("authentication successfull")
 
                     const accessToken = jwt.sign({
                         id: new_user.login_id,
@@ -46,10 +47,19 @@ export const signIn = async (req: Request, res: Response) => {
                         contact: new_user.login_contact
                     }, "i hve a secret", { expiresIn: "1h" })
 
+                    const refreshToken = jwt.sign({
+                        id: new_user.login_id,
+                        name: new_user.login_username,
+                        address: new_user.login_location,
+                        email: new_user.login_email,
+                        role: new_user.login_role,
+                        contact: new_user.login_contact
+                    }, "i hve a secret", { expiresIn: "1y" })
 
 
-                    res.cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true, secure: false }).json({
-                        authenticated: true, msg: "login successfull"
+
+                    res.cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true, secure: false }).cookie("refreshToken", refreshToken, { maxAge: 1000 * 60 * 60 * 24 * 7 * 12, httpOnly: true, secure: false }).json({
+                        authenticated: true, msg: "login successfull", role: new_user.login_role
                     })
 
 
@@ -57,6 +67,7 @@ export const signIn = async (req: Request, res: Response) => {
                 }
                 else {
                     res.json({ authenticated: false, msg: "Unable to authenticate  user ,wrong password " })
+                    console.log("wrong password")
 
                 }
 
@@ -91,7 +102,7 @@ export const signIn = async (req: Request, res: Response) => {
 
 
 export const signOut = (req: Request, res: Response) => {
-    res.cookie("accessToken", "").send("successfully logged out")
+    res.cookie("accessToken", "").cookie("refreshToken", "").send("successfully logged out")
 
 
 

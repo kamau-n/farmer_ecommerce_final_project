@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "_id": "c6a3987d-3f5e-4d8b-ad63-7b618743e828",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8000/chat",
+    "url": "localhost:8000/chat/create",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-02-28T13:56:22.602Z",
+    "modified": "2023-02-28T14:30:36.282Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"room_visibility\":\"private\",\n  \"room_chat_sender\":1,\n  \"room_chat_receiver\" :4\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]
