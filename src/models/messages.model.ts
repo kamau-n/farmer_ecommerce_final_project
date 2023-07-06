@@ -24,6 +24,9 @@ export class Messages {
     @Column({ nullable: true })
     message_sender_name!: string
 
+    @Column("text", { nullable: true })
+    message_media!: string
+
 
 
     @ManyToOne(type => Login, (login) => login.messages, { onDelete: "CASCADE" })

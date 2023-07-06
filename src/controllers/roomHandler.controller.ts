@@ -33,6 +33,8 @@ export const createRoom = async (req: Request, res: Response) => {
 
 
 
+
+
 export const fetchChats = async (req: Request, res: Response) => {
     const chatRepo = appDataSource.getRepository(Messages)
     console.log(req.body)
@@ -77,6 +79,12 @@ export const getChatRoom = async (req: Request, res: Response) => {
 
 }
 
+
+export const mediaUpload = (req: Request, res: Response) => {
+
+    console.log("Am uploading a message file")
+    res.send(req.file)
+}
 
 export const createChats = (req: Request, res: Response) => {
 

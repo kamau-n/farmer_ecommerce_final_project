@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import fs from "fs"
+import { appDataSource } from "../connection/configuration";
+import { Image } from "../models/images.model";
 
 export const deleteFiles = (req: Request, res: Response) => {
 
@@ -22,4 +24,17 @@ export const deleteFiles = (req: Request, res: Response) => {
 
     }
 
-} 
+}
+
+export const getImages = async (req: Request, res: Response) => {
+    try {
+        const images = await appDataSource.getRepository(Image).find({})
+        res.send(images)
+
+    } catch (error) {
+        console.log(error)
+        res.send([])
+
+    }
+
+}

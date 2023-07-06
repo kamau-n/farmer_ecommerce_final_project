@@ -90,6 +90,7 @@ io.on('connection', (socket) => {
 
 
   socket.on("Send", async (data) => {
+    console.log(data)
     await appDataSource.getRepository(Messages).save(data)
     console.log(data.message_room_id)
     const messages = await appDataSource.getRepository(Messages).find({

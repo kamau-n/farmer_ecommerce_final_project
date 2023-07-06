@@ -22,6 +22,9 @@ export class Room {
     @Column({ nullable: false })
     room_chat_sender_name!: string
 
+    @Column("text", { nullable: true })
+    room_chat_receiver_name!: string
+
 
 
     @ManyToOne(type => Login, (sender) => sender.room, { onDelete: "CASCADE" })
