@@ -2,6 +2,8 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, One
 import { Login } from "./login.model";
 import { Image } from "./images.model";
 
+import { Promoted } from "./promoted.model";
+
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn()
@@ -27,6 +29,9 @@ export class Product {
     @Column({ nullable: true })
     product_location!: string;
 
+    @Column({ nullable: true })
+    product_promoted!: boolean;
+
     @CreateDateColumn({ nullable: true })
     product_posted_on!: Date
 
@@ -41,6 +46,10 @@ export class Product {
 
     @OneToMany(type => Image, (image) => image.product, { onDelete: "CASCADE" })
     image!: Image[]
+
+
+    @OneToOne(type => Promoted, (promoted) => promoted.product, { onDelete: "CASCADE" })
+    promoted!: Promoted;
 
 
 

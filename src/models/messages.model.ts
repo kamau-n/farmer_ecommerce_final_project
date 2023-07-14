@@ -1,7 +1,7 @@
 import { type } from "os";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Login } from "./login.model";
-import { Room } from "./room.model";
+import { ChatRoom } from "./room.model";
 
 
 @Entity()
@@ -33,9 +33,9 @@ export class Messages {
     @JoinColumn({ name: "message_sender_id" })
     login!: Login[];
 
-    @ManyToOne(type => Room, (room) => room.messages, { onDelete: "CASCADE" })
+    @ManyToOne(type => ChatRoom, (room) => room.messages, { onDelete: "CASCADE" })
     @JoinColumn({ name: "message_room_id" })
-    room!: Room;
+    room!: ChatRoom;
 
 
 

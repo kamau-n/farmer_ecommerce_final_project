@@ -4,6 +4,7 @@ import { Product } from "../models/product.model";
 
 import multer from "multer";
 import { Image } from "../models/images.model";
+import { Promoted } from "../models/promoted.model";
 
 
 
@@ -208,6 +209,116 @@ export const imageUpload = async (req: Request, res: Response) => {
 }
 
 
+// a controller for deleting an image
+
+
+export const deleteImage = async (req: Request, res: Response) => {
+    console.log(req.body)
+    try {
+
+        const delele_image = await appDataSource.createQueryBuilder()
+            .delete()
+            .from(Image, "image")
+            .where("image_id =:id", { id: req.body.delete_id })
+            .execute()
+
+        delele_image.affected! > 0 ? res.json({ msg: "Image deleted Successfully", deleted: true }) : res.status(200).json({ msg: "Unable to delete the image", deleted: false })
+    } catch (error) {
+        console.log(error)
+        res.status(200).json({ msg: "Unable to delete the image", deleted: false })
+
+    }
+}
+
+
+// a controller for promoting a product
+
+
+export const promoteProduct = async (req: Request, res: Response) => {
+
+    console.log(req.body)
+
+    try {
+
+        const new_promoted = req.body;
+        //@ts-ignore
+
+        new_promoted["promoted_product_status"] = "not approved";
+
+        const create_new_promoted_product = await appDataSource.getRepository(Promoted).save(new_promoted)
+        res.json({ msg: " Product promoted successfully", promoted: true })
+
+
+    } catch (error) {
+        console.log(error)
+        res.json({ msg: "unable to promote Product, Try again", promoted: false })
+
+    }
+
+}
+
+// router for getting all the  promoted products
+
+
+export const promotedProduct = async (req: Request, res: Response) => {
+    console.log("getting promoted Products")
+    try {
+        // appDataSource.query("select * from product join promoted on promoted.promoted_product_id= product.product_id join image on image.image_product_id = promoted_product_id").then((data) => {
+        //     res.send(data)
+
+        // })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
+
+        const products = await appDataSource.createQueryBuilder()
+            .select()
+            .from(Product, "product")
+            .leftJoinAndSelect(Promoted, "promoted", "promoted.promoted_product_id = product.product_id")
+            .getMany()
+
+
+
+
+        console.log(products)
+
+
+        res.send(products)
+
+
+    } catch (error) {
+        console.log(error)
+        res.send([])
+
+    }
+
+}
+
+// route for changing the status of an promoted products
+export const productPromotedUpdate = async (req: Request, res: Response) => {
+    console.log(req.body)
+
+
+    try {
+        const promoted = await appDataSource.createQueryBuilder()
+            .update(Promoted)
+            .set({ promoted_product_status: "approved" })
+            .where("promoted_id =:promoted_id", { promoted_id: req.body.promoted_id })
+            .execute()
+        { promoted.affected! > 0 ? res.json({ msg: "approved Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false }) }
+
+
+
+
+    } catch (error) {
+        console.log(error)
+        res.json({ msg: "approval Failed", approved: false })
+
+    }
+
+
+}
+
 
 // this is a controller for searching products by category
 
@@ -240,8 +351,8 @@ export const productCategory = async (req: Request, res: Response) => {
 
 export const getUserProducts = async (req: Request, res: Response) => {
 
-    console.log("getting user data by their id ......")
-    console.log("user id gotten from client is  : " + req.body.user_id)
+    // console.log("getting user data by their id ......")
+    // console.log("user id gotten from client is  : " + req.body.user_id)
     const productsRepo = appDataSource.getRepository(Product)
     try {
         const products = await productsRepo.find({
@@ -258,6 +369,32 @@ export const getUserProducts = async (req: Request, res: Response) => {
     }
     catch (error) {
         console.log(error)
-        res.send([])
+        res.send(error)
     }
+}
+
+
+
+// route for getting all the promoted products
+
+
+export const promotedProducts = async (req: Request, res: Response,) => {
+    try {
+        const promoted_products = await appDataSource.getRepository(Promoted).find({
+            relations: {
+                product: true,
+
+            },
+
+
+        })
+
+        res.send(promoted_products)
+
+    } catch (error) {
+        console.log(error)
+        res.send([])
+
+    }
+
 }

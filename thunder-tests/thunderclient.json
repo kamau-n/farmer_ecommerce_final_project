@@ -76,6 +76,25 @@
     "tests": []
   },
   {
+    "_id": "8e298f9d-d2a4-4711-8852-b54926bcd45d",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "deleteConversation",
+    "url": "localhost:8000/chats/delete",
+    "method": "POST",
+    "sortNum": 160000,
+    "created": "2023-02-28T18:41:24.040Z",
+    "modified": "2023-02-28T18:48:36.135Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"room_id\" :1\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
     "_id": "66d72618-8517-4421-9eac-78762a22474f",
     "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
     "containerId": "",
@@ -284,6 +303,91 @@
       "raw": "{\n  \"reset_email\" :\"kamau@gmail.com\",\n  \"reset_password\": \"123456\"\n  \n}",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "ea0b2779-b4fb-450c-9fbe-736d9385f3f2",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "deleteImage",
+    "url": "localhost:8000/image/delete",
+    "method": "POST",
+    "sortNum": 150000,
+    "created": "2023-07-07T14:38:28.805Z",
+    "modified": "2023-07-07T14:47:46.348Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\"delete_id\" :178}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "7db2ef7f-9ae3-43d1-a444-402b9d2d4fdd",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "PromoteProduct",
+    "url": "localhost:8000/product/promote",
+    "method": "POST",
+    "sortNum": 170000,
+    "created": "2023-07-10T16:18:19.278Z",
+    "modified": "2023-07-10T16:20:23.374Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"promoted_product_id\" :89\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "92ed0abb-8116-4d60-bd84-2d4668ccc7cd",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "getAllProducts",
+    "url": "localhost:8000/products",
+    "method": "GET",
+    "sortNum": 180000,
+    "created": "2023-07-10T16:19:49.333Z",
+    "modified": "2023-07-10T16:20:04.017Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "f1bee93b-999e-4470-90ce-18de52ecbe7f",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "updatePromotedProducts",
+    "url": "localhost:8000/product/promote/update",
+    "method": "POST",
+    "sortNum": 190000,
+    "created": "2023-07-10T16:33:38.560Z",
+    "modified": "2023-07-10T16:37:05.243Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"promoted_id\" : 3\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "ea83718f-dc01-495d-9bcb-ea8e5fdf2286",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "promotedProducts",
+    "url": "http://localhost:8000/products/promoted/get",
+    "method": "GET",
+    "sortNum": 200000,
+    "created": "2023-07-13T15:44:41.737Z",
+    "modified": "2023-07-13T15:44:51.128Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

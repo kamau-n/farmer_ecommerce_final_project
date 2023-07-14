@@ -3,7 +3,7 @@ import { Login } from "./login.model";
 import { Messages } from "./messages.model";
 
 @Entity()
-export class Room {
+export class ChatRoom {
     @PrimaryGeneratedColumn()
     room_id!: string
 

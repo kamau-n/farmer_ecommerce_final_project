@@ -1,12 +1,13 @@
 import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Product } from "./product.model";
 import { Messages } from "./messages.model";
-import { Room } from "./room.model";
+import { ChatRoom } from "./room.model";
 import { Complaints } from "./complaints.model";
 
 
 @Entity()
 export class Login {
+
     @PrimaryGeneratedColumn()
     login_id!: number;
 
@@ -34,7 +35,7 @@ export class Login {
 
 
     @CreateDateColumn({ nullable: true })
-    login_created_on !: Date
+    login_created_on!: Date
 
 
     @OneToMany(type => Product, (product) => product.login, { onDelete: "CASCADE" })
@@ -43,7 +44,7 @@ export class Login {
 
 
     @OneToMany(type => Login, (login) => login.room, { onDelete: "CASCADE" })
-    room!: Room[];
+    room!: ChatRoom[];
 
     // @OneToMany(type => Complaints, (complaints) => complaints.login, { onDelete: "CASCADE" })
     // complaints!: Complaints[];

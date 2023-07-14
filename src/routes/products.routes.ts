@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Product } from "../models/product.model";
-import { deleteProduct, getProductById, getProducts, getUserProducts, imageUpload, productCategory, uploadProduct, userById } from "../controllers/productController.contoller";
+import { deleteProduct, getProductById, getProducts, getUserProducts, imageUpload, productCategory, productPromotedUpdate, promoteProduct, promotedProduct, promotedProducts, uploadProduct, userById } from "../controllers/productController.contoller";
 import multer from "multer";
 import { requireUser } from "../middleware/requireUser.middleware";
 import { requireAdmin } from "../middleware/requireAdmin.middleware";
@@ -35,7 +35,10 @@ productRouter.post("/products/category", productCategory)
 productRouter.get("/products/user", requireUser, getUserProducts)
 productRouter.post("/products/user/id", requireAdmin, userById)
 productRouter.post("/product/delete", requireUser, deleteProduct)
-
+productRouter.post("/product/promote", requireUser, promoteProduct)
+productRouter.post("/product/promote/update", requireAdmin, productPromotedUpdate)
+productRouter.get("/products/promoted", promotedProducts)
+productRouter.get("/products/promoted/get", promotedProduct)
 
 
 

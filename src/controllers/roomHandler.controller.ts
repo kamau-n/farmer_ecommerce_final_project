@@ -1,12 +1,12 @@
 import { Request, Response } from "express"
 import { appDataSource } from "../connection/configuration"
-import { Room } from "../models/room.model"
+import { ChatRoom } from "../models/room.model"
 import { io } from "../app"
 import { Messages } from "../models/messages.model"
 
 
 export const createRoom = async (req: Request, res: Response) => {
-    const roomRepo = appDataSource.getRepository(Room)
+    const roomRepo = appDataSource.getRepository(ChatRoom)
     console.log(req.body)
 
     try {
@@ -17,6 +17,8 @@ export const createRoom = async (req: Request, res: Response) => {
 
         //@ts-ignore
         room_object["room_chat_sender_name"] = req.user.name
+        room_object["room_chat_receiver_name"] = req.body.room_chat_receiver_name
+        room_object["room_chat_receiver"] - req.body.room_chat_receiver
         console.log(room_object)
         const roomCreated = await roomRepo.save(room_object)
 
@@ -32,6 +34,9 @@ export const createRoom = async (req: Request, res: Response) => {
 }
 
 
+
+
+//fetch chats
 
 
 
@@ -59,7 +64,7 @@ export const fetchChats = async (req: Request, res: Response) => {
 
 export const getChatRoom = async (req: Request, res: Response) => {
     try {
-        const rooms = await appDataSource.getRepository(Room).find({
+        const rooms = await appDataSource.getRepository(ChatRoom).find({
             where: [
                 //@ts-ignore
                 { room_chat_receiver: req.user.id }, { room_chat_sender: req.user.id }
@@ -86,23 +91,46 @@ export const mediaUpload = (req: Request, res: Response) => {
     res.send(req.file)
 }
 
-export const createChats = (req: Request, res: Response) => {
+// export const createChats = (req: Request, res: Response) => {
 
-    const room_id: string = req.body.room_id;
-    io.on("connection", (socket) => {
-        socket.on("join_chat", (data) => {
-            socket.join(data)
-            console.log("joining room")
-        })
+//     const room_id: string = req.body.room_id;
+//     io.on("connection", (socket) => {
+//         socket.on("join_chat", (data) => {
+//             socket.join(data)
+//             console.log("joining room")
+//         })
 
-        socket.on("Send", (data) => {
-            console.log("sending Messages")
-            socket.to(data.room).emit("Received", data)
-        })
-    })
-
-
+//         socket.on("Send", (data) => {
+//             console.log("sending Messages")
+//             socket.to(data.room).emit("Received", data)
+//         })
+//     })
 
 
 
+
+
+// }
+
+// a router for deleting a conversion
+
+
+export const deleteConversation = async (req: Request, res: Response) => {
+    console.log(req.body)
+
+    try {
+        const deleted = await appDataSource.createQueryBuilder()
+            .delete()
+            .from(Messages)
+            .where("message_room_id =:room_id", { room_id: req.body.room_id })
+            .execute()
+
+
+        deleted.affected! < 1 ? res.json({ msg: "unable to delete conversation", deleted: false }) : res.json({ msg: " delete conversation successfully", deleted: true })
+
+    } catch (error) {
+        console.log(error)
+
+
+    }
 }

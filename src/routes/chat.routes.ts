@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createChats, createRoom, fetchChats, getChatRoom, mediaUpload } from "../controllers/roomHandler.controller";
+import { createRoom, deleteConversation, fetchChats, getChatRoom, mediaUpload } from "../controllers/roomHandler.controller";
 import { requireUser } from "../middleware/requireUser.middleware";
 import multer from "multer";
 
@@ -23,10 +23,11 @@ const chatRouter = Router()
 const upload = multer({ storage: storage }).single("image");
 
 chatRouter.post("/chat/create", requireUser, createRoom)
-chatRouter.post("/chat/begin", requireUser, createChats)
+// chatRouter.post("/chat/begin", requireUser, createChats)
 chatRouter.get("/chat/getchatroom", requireUser, getChatRoom)
 chatRouter.post("/chat/getchats", fetchChats)
 chatRouter.post("/chat/mediaUpload", upload, mediaUpload)
+chatRouter.post("/chats/delete", requireUser, deleteConversation)
 
 
 export default chatRouter;
