@@ -16,7 +16,7 @@ export const createRoom = async (req: Request, res: Response) => {
         room_object['room_chat_sender'] = req.user.id
 
         //@ts-ignore
-        room_object["room_chat_sender_name"] = req.user.name
+        req.user.role == "Admin" ? room_object["room_chat_sender_name"] = "Admin" : room_object["room_chat_sender_name"] = req.user.name
         room_object["room_chat_receiver_name"] = req.body.room_chat_receiver_name
         room_object["room_chat_receiver"] - req.body.room_chat_receiver
         console.log(room_object)

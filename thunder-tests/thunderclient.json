@@ -27,12 +27,12 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2023-02-28T13:22:31.803Z",
-    "modified": "2023-06-17T16:10:43.547Z",
+    "modified": "2023-07-14T16:11:51.078Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"login_email\" :\"kamaun@gmail.com\",\n  \"login_password\":\"123456\",\n  \"login_location\" :\"Nakuru\",\n  \"login_contact:\" :345464645,\n  \"login_username\" :\"kamau Harrison\",\n  \"login_role\" :\"User\"\n}",
+      "raw": "{\n  \"login_email\" :\"kamaun@gmail.com\",\n  \"login_password\":\"123456\",\n  \"login_location\" :\"Nakuru\",\n  \"login_contact:\" :\"345464645\",\n  \"login_username\" :\"kamau Harrison\",\n  \"login_role\" :\"User\"\n}",
       "form": []
     },
     "tests": []
@@ -366,12 +366,12 @@
     "method": "POST",
     "sortNum": 190000,
     "created": "2023-07-10T16:33:38.560Z",
-    "modified": "2023-07-10T16:37:05.243Z",
+    "modified": "2023-07-14T16:08:03.156Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"promoted_id\" : 3\n}",
+      "raw": "{\n  \"promoted_id\" : 3,\n  \"product_id\" :81\n}",
       "form": []
     },
     "tests": []
@@ -388,6 +388,25 @@
     "modified": "2023-07-13T15:44:51.128Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "238c879d-9667-4642-ae42-daa418df06e5",
+    "colId": "702b4ae7-82b2-447f-a48e-73b850046d04",
+    "containerId": "",
+    "name": "category",
+    "url": "localhost:8000/products/category",
+    "method": "POST",
+    "sortNum": 210000,
+    "created": "2023-07-14T18:25:37.233Z",
+    "modified": "2023-07-14T18:26:29.112Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"category\" :\"fruits\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

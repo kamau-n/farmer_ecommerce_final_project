@@ -194,12 +194,6 @@ export const imageUpload = async (req: Request, res: Response) => {
 
             imageRepo.save({ image_url: image_url, image_product_id: req.body.image_product_id })
 
-
-
-
-
-
-
         }
         res.json({ msg: "successfully uploaded", uploaded: true })
 
@@ -263,19 +257,18 @@ export const promoteProduct = async (req: Request, res: Response) => {
 export const promotedProduct = async (req: Request, res: Response) => {
     console.log("getting promoted Products")
     try {
-        // appDataSource.query("select * from product join promoted on promoted.promoted_product_id= product.product_id join image on image.image_product_id = promoted_product_id").then((data) => {
-        //     res.send(data)
 
-        // })
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
 
-        const products = await appDataSource.createQueryBuilder()
-            .select()
-            .from(Product, "product")
-            .leftJoinAndSelect(Promoted, "promoted", "promoted.promoted_product_id = product.product_id")
-            .getMany()
+        const products = await appDataSource.getRepository(Product)
+            .find({
+                where: {
+                    product_promoted: true
+                },
+                relations: {
+                    image: true
+                }
+            })
+
 
 
 
@@ -305,12 +298,39 @@ export const productPromotedUpdate = async (req: Request, res: Response) => {
             .set({ promoted_product_status: "approved" })
             .where("promoted_id =:promoted_id", { promoted_id: req.body.promoted_id })
             .execute()
-        { promoted.affected! > 0 ? res.json({ msg: "approved Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false }) }
+
+        console.log(promoted)
+
+        if (promoted.affected! > 0) {
+            console.log("updated a promoted column")
+            const update_product = await appDataSource.createQueryBuilder()
+                .update(Product)
+                .set({ product_promoted: true })
+                .where("product_id = :product_id", { product_id: req.body.product_id })
+                .execute()
+
+            console.log(update_product)
+
+            // @ts-ignore
+            update_product.affected > 0 ? res.json({ msg: "approved Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false })
+        }
+        else {
+            res.json({ msg: "approval failed", approved: false })
+
+        }
 
 
 
 
-    } catch (error) {
+
+
+
+    }
+
+
+
+
+    catch (error) {
         console.log(error)
         res.json({ msg: "approval Failed", approved: false })
 
@@ -323,6 +343,7 @@ export const productPromotedUpdate = async (req: Request, res: Response) => {
 // this is a controller for searching products by category
 
 export const productCategory = async (req: Request, res: Response) => {
+    console.log(req.body)
     const productsRepo = appDataSource.getRepository(Product)
 
     try {
