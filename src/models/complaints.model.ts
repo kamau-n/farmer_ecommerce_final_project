@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Login } from "./login.model";
+import { IsEmail } from "class-validator";
 
 @Entity()
 export class Complaints {
@@ -16,6 +17,8 @@ export class Complaints {
     complaint_name!: string
 
     @Column("text")
+    @IsEmail()
+
     complaint_email!: string
 
 

@@ -169,6 +169,15 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
 }
 
+
+// a search for product querry 
+
+// export const searchCategory = async (req: Request, res: Response) => {
+
+//     if(req.query)
+
+// }
+
 // this is  a controller for uploading images
 
 export const imageUpload = async (req: Request, res: Response) => {
