@@ -3,6 +3,7 @@ import { Product } from "./product.model";
 import { Messages } from "./messages.model";
 import { ChatRoom } from "./room.model";
 import { Complaints } from "./complaints.model";
+import { IsEmail } from "class-validator";
 
 
 @Entity()
@@ -13,6 +14,7 @@ export class Login {
 
 
     @Column({ unique: true })
+    @IsEmail()
     login_email!: string;
 
     @Column()

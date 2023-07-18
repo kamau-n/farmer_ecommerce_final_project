@@ -91,19 +91,48 @@ export const getProductById = async (req: Request, res: Response) => {
 export const getProducts = async (req: Request, res: Response) => {
 
     const productsRepo = appDataSource.getRepository(Product)
+    console.log(req.query)
 
-    try {
-        const products = await productsRepo.find({
-            relations: {
-                image: true,
-                login: true
+    if (req.query.category == "") {
+
+
+
+        try {
+            const products = await productsRepo.find({
+                relations: {
+                    image: true,
+                    login: true
+                }
             }
-        }
 
-        );
-        res.send(products)
-    } catch (error) {
-        res.send([])
+            );
+            res.send(products)
+        } catch (error) {
+            res.send([])
+
+        }
+    }
+    else {
+        try {
+            const products = await productsRepo.find({
+                //@ts-ignore
+                where: {
+                    product_category: req.query.category
+
+                },
+                relations: {
+                    image: true,
+                    login: true
+                }
+
+            }
+
+            );
+            res.send(products)
+        } catch (error) {
+            res.send([])
+
+        }
 
     }
 

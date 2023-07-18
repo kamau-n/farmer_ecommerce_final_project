@@ -48,6 +48,11 @@ export const fetchChats = async (req: Request, res: Response) => {
             where: {
                 message_room_id: req.body.room_id
             }
+            , relations: {
+                login: true,
+                room: true
+
+            }
         })
         res.send(chats)
 
