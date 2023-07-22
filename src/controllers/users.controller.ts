@@ -67,6 +67,30 @@ export const getAllUSers = async (req: Request, res: Response) => {
 }
 
 
+// updating user Details
+
+
+export const updateUserDetails = async (req: Request, res: Response) => {
+    console.log(req.body)
+
+    try {
+        const updated_user = appDataSource.createQueryBuilder()
+            .update(Login)
+            .set({ login_contact: req.body.login_contact, login_username: req.body.login_username, login_location: req.body.login_location, login_email: req.body.login_email })
+            .where("login_id =:id ", { id: req.body.login_id })
+            .execute()
+        res.send(updated_user)
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ msg: "unable to update", update: false })
+    }
+
+
+}
+
+
+
 
 
 // a controller for reseting a user password

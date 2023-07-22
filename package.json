@@ -4,7 +4,7 @@
     "description": "it it a farmers ecomerce application",
     "main": "app.ts",
     "scripts": {
-        "start": "node dist/app.js",
+        "start": "nodemon dist/app.js",
         "dev": "nodemon src/app.ts",
         "build": "tsc -p ."
     },

@@ -5,10 +5,14 @@
         },
         {
             "path": "../../../Developer/Next/farmer_app_client"
+        },
+        {
+            "path": "../../../Proposal"
         }
     ],
     "settings": {
         "typescript.tsdk": "backend/node_modules/typescript/lib",
-        "thunder-client.multiRootWorkspaceName": "backend"
+        "thunder-client.multiRootWorkspaceName": "backend",
+        "liveServer.settings.multiRootWorkspaceName": "farmer_app_client"
     }
 }

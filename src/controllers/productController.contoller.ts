@@ -331,7 +331,7 @@ export const promoteProduct = async (req: Request, res: Response) => {
         new_promoted["promoted_product_status"] = "not approved";
 
         const create_new_promoted_product = await appDataSource.getRepository(Promoted).save(new_promoted)
-        res.json({ msg: " Product promoted successfully", promoted: true })
+        res.json({ msg: " Product submitted for Promotion  Successfully", promoted: true })
 
 
     } catch (error) {
@@ -475,6 +475,57 @@ export const productPromotedRevoke = async (req: Request, res: Response) => {
     }
 
 }
+
+
+// a route for deleting a promoted product
+
+export const productPromotedDelete = async (req: Request, res: Response) => {
+    try {
+        const promoted = await appDataSource.createQueryBuilder()
+
+            .delete()
+            .from(Promoted)
+
+            .where("promoted_id =:promoted_id", { promoted_id: req.body.promoted_id })
+            .execute()
+
+        console.log(promoted)
+
+        if (promoted.affected! > 0) {
+            console.log("deleted a promoted column")
+            const update_product = await appDataSource.createQueryBuilder()
+                .update(Product)
+                .set({ product_promoted: false })
+                .where("product_id = :product_id", { product_id: req.body.product_id })
+                .execute()
+
+            console.log(update_product)
+
+            // @ts-ignore
+            update_product.affected > 0 ? res.json({ msg: "Deleted Successfully", delete: true }) : res.json({ msg: "Delete failed", delete: false })
+        }
+        else {
+            res.json({ msg: "revoked failed", delete: false })
+
+        }
+
+
+
+
+
+
+
+
+    }
+    catch (err) {
+        console.log(err)
+
+        res.json({ msg: "revoked failed", revoked: false })
+
+    }
+
+}
+
 
 
 // this is a controller for searching products by category
