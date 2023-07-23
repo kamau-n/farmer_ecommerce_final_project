@@ -54,6 +54,10 @@ export const getProductById = async (req: Request, res: Response) => {
 
     console.log(req.body)
 
+    if (req.body.id == " ") {
+        res.send([])
+    }
+
 
     try {
         const productRepo = appDataSource.getRepository(Product)
@@ -63,7 +67,7 @@ export const getProductById = async (req: Request, res: Response) => {
                 product_id: req.body.id
             }, relations: {
                 image: true,
-                login: true
+
 
             }
         })
@@ -83,8 +87,6 @@ export const getProductById = async (req: Request, res: Response) => {
 
 
 //this is a controller for getting all the products
-
-
 
 
 
@@ -607,3 +609,25 @@ export const promotedProducts = async (req: Request, res: Response,) => {
     }
 
 }
+
+// a controller for updating a product 
+export const productUpdate = async (req: Request, res: Response) => {
+    console.log("Updating a product")
+    console.log(req.body)
+
+    try {
+        const updated_product = await appDataSource.createQueryBuilder()
+            .update(Product)
+            .set({ product_name: req.body.name, product_location: req.body.location, product_quantity: req.body.quantity, product_price: req.body.price })
+            .where("product_id =:id", { id: req.body.id })
+            .execute()
+
+        updated_product.affected! > 0 ? res.json({ msg: "Update Successful", updated: true }) : res.json({ msg: "update failed", updated: false })
+    } catch (error) {
+        console.log(error)
+        res.json({ msg: "update failed", updated: false })
+
+    }
+
+}
+

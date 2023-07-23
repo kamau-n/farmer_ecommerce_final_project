@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Product } from "../models/product.model";
-import { deleteProduct, getProductById, getProducts, getUserProducts, imageUpload, productCategory, productPromotedDelete, productPromotedRevoke, productPromotedUpdate, promoteProduct, promotedProduct, promotedProducts, uploadProduct, userById } from "../controllers/productController.contoller";
+import { deleteProduct, getProductById, getProducts, getUserProducts, imageUpload, productCategory, productPromotedDelete, productPromotedRevoke, productPromotedUpdate, productUpdate, promoteProduct, promotedProduct, promotedProducts, uploadProduct, userById } from "../controllers/productController.contoller";
 import multer from "multer";
 import { requireUser } from "../middleware/requireUser.middleware";
 import { requireAdmin } from "../middleware/requireAdmin.middleware";
@@ -28,6 +28,7 @@ const productRouter = Router()
 
 productRouter.post("/product/upload", requireUser, uploadProduct)
 productRouter.get("/products", getProducts)
+productRouter.post("/product/update", requireUser, productUpdate)
 
 productRouter.post("/product/images/upload", upload, imageUpload)
 productRouter.post("/product/id", getProductById)
