@@ -48,8 +48,8 @@ export class Login {
     @OneToMany(type => Login, (login) => login.room, { onDelete: "CASCADE" })
     room!: ChatRoom[];
 
-    // @OneToMany(type => Complaints, (complaints) => complaints.login, { onDelete: "CASCADE" })
-    // complaints!: Complaints[];
+    @OneToMany(type => Complaints, (complaints) => complaints.login, { onDelete: "CASCADE" })
+    complaints!: Complaints[];
 
 
 

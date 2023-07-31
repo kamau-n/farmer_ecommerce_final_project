@@ -5,6 +5,7 @@ import { Product } from "../models/product.model";
 import multer from "multer";
 import { Image } from "../models/images.model";
 import { Promoted } from "../models/promoted.model";
+import exp from "constants";
 
 
 
@@ -13,6 +14,7 @@ import { Promoted } from "../models/promoted.model";
 
 
 
+//uploading a product
 export const uploadProduct = async (req: Request, res: Response) => {
 
     console.log(req.body)
@@ -52,38 +54,32 @@ export const uploadProduct = async (req: Request, res: Response) => {
 
 export const getProductById = async (req: Request, res: Response) => {
 
-    console.log(req.body)
-
-    if (req.body.id == " ") {
-        res.send([])
-    }
-
+    console.log(req.params)
 
     try {
-        const productRepo = appDataSource.getRepository(Product)
+        const productRepo = await appDataSource.getRepository(Product)
+            .findOne({
+                where: {
+                    product_id: req.params.id
+                }
+                , relations: {
+                    image: true,
+                    login: true
+                }
 
-        const product = await productRepo.find({
-            where: {
-                product_id: req.body.id
-            }, relations: {
-                image: true,
+            })
+        //console.log(productRepo)
 
+        productRepo == null ? res.send([]) : res.send(productRepo)
 
-            }
-        })
-
-
-
-
-
-        res.send(product)
 
     } catch (error) {
         res.send([])
 
     }
-
 }
+
+
 
 
 //this is a controller for getting all the products
@@ -615,14 +611,51 @@ export const productUpdate = async (req: Request, res: Response) => {
     console.log("Updating a product")
     console.log(req.body)
 
+    const updated_product = req.body;
+
     try {
-        const updated_product = await appDataSource.createQueryBuilder()
+        const product = await appDataSource.getRepository(Product).find({
+            where: {
+                product_id: req.body.id
+            }
+        })
+
+
+        if (updated_product.name == "") {
+            //@ts-ignore
+            updated_product.name = product.product_name
+
+
+
+        }
+        if (updated_product.location == "") {
+            //@ts-ignore
+            updated_product.location = product.product_location
+
+        }
+        if (updated_product.quantity == "") {
+            //@ts-ignore
+            updated_product.quantity = product.product_quantity
+
+        }
+        if (updated_product.price == '') {
+            //@ts-ignore
+            updated_product.price = product.product_price
+
+        }
+
+
+        console.log(updated_product)
+
+
+
+        const update_product = await appDataSource.createQueryBuilder()
             .update(Product)
-            .set({ product_name: req.body.name, product_location: req.body.location, product_quantity: req.body.quantity, product_price: req.body.price })
-            .where("product_id =:id", { id: req.body.id })
+            .set({ product_name: updated_product!.name, product_location: updated_product!.location, product_quantity: updated_product!.quantity, product_price: updated_product!.price })
+            .where("product_id =:id", { id: updated_product!.id })
             .execute()
 
-        updated_product.affected! > 0 ? res.json({ msg: "Update Successful", updated: true }) : res.json({ msg: "update failed", updated: false })
+        update_product.affected! > 0 ? res.json({ msg: "Update Successful", updated: true }) : res.json({ msg: "update failed", updated: false })
     } catch (error) {
         console.log(error)
         res.json({ msg: "update failed", updated: false })
@@ -631,3 +664,28 @@ export const productUpdate = async (req: Request, res: Response) => {
 
 }
 
+
+// geting a user promoted products
+
+export const getUserPromoted = async (req: Request, res: Response) => {
+    try {
+        const products = await appDataSource.getRepository(Product)
+            .find({
+                where: {
+                    product_login_id: req.params.id,
+                    product_promoted: true
+                }
+                , relations: {
+                    image: true,
+                    login: true,
+                }
+
+            })
+        products == null ? res.send([]) : res.send(products)
+    } catch (error) {
+        res.send([])
+        console.log(error)
+
+    }
+
+}

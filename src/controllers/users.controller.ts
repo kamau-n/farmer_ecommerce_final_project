@@ -71,15 +71,62 @@ export const getAllUSers = async (req: Request, res: Response) => {
 
 
 export const updateUserDetails = async (req: Request, res: Response) => {
+    console.log("We are Trying to update a user Details")
     console.log(req.body)
+    const updated_user = req.body;
+    //@ts-ignore
+    //console.log(user)
+    let user = await appDataSource.getRepository(Login).findOne({
+        where: {
+            login_id: req.body.user_id
+        }
+    })
+    console.log(user)
+
+    //@ts-ignore
+
+    console.log(user.login_id)
+
+    if (updated_user.login_username == "") {
+
+        //@ts-ignore
+        updated_user.login_username = user.login_username;
+    }
+
+    if (req.body.login_email == "") {
+
+
+        //@ts-ignore
+        updated_user.login_email = user.login_email;
+    }
+
+    if (req.body.login_contact == "") {
+
+        //@ts-ignore
+        updated_user.login_contact = user.login_contact;
+    }
+
+
+    if (req.body.login_location == "") {
+
+        //@ts-ignore
+        updated_user.login_location = user.login_location;
+    }
+
+    console.log(updated_user)
 
     try {
-        const updated_user = appDataSource.createQueryBuilder()
+
+
+        const update_user = await appDataSource.createQueryBuilder()
             .update(Login)
-            .set({ login_contact: req.body.login_contact, login_username: req.body.login_username, login_location: req.body.login_location, login_email: req.body.login_email })
-            .where("login_id =:id ", { id: req.body.login_id })
+            .set({ login_contact: updated_user.login_contact, login_username: updated_user.login_username, login_location: updated_user.login_location, login_email: updated_user.login_email })
+            .where("login_id =:id ", { id: req.body.user_id })
             .execute()
-        res.send(updated_user)
+
+        console.log(update_user)
+
+        update_user.affected! > 0 ? res.json({ msg: "Details Updated Successfully", update: true }) : res.json({ msg: "unable to update", update: false })
     }
     catch (err) {
         console.log(err)

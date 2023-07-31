@@ -23,9 +23,9 @@ export class Complaints {
 
 
 
-    // @ManyToOne(type => Login, (login) => login.complaints, { onDelete: "CASCADE" })
-    // @JoinColumn({ name: 'complaint_login_id' })
-    // login!: Login
+    @ManyToOne(type => Login, (login) => login.complaints, { onDelete: "CASCADE" })
+    @JoinColumn({ name: 'complaint_login_id' })
+    login!: Login
 
 
 
