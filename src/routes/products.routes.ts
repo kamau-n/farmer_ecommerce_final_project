@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Product } from "../models/product.model";
-import { deleteProduct, getProductById, getProducts, getUserProducts, getUserPromoted, imageUpload, productCategory, productPromotedDelete, productPromotedRevoke, productPromotedUpdate, productUpdate, promoteProduct, promotedProduct, promotedProducts, uploadProduct, userById } from "../controllers/productController.contoller";
+import { deleteProduct, getProductById, getProducts, getUserProducts, getUserPromoted, imageUpload, productCategory, productPromotedDelete, productPromotedUpdate, productUpdate, promoteProduct, promotedProduct, promotedProducts, uploadProduct, userById } from "../controllers/productController.contoller";
 import multer from "multer";
 import { requireUser } from "../middleware/requireUser.middleware";
 import { requireAdmin } from "../middleware/requireAdmin.middleware";
@@ -38,8 +38,8 @@ productRouter.get("/products/user", requireUser, getUserProducts)
 productRouter.post("/products/user/id", requireAdmin, userById)
 productRouter.post("/product/delete", requireUser, deleteProduct)
 productRouter.post("/product/promote", requireUser, promoteProduct)
-productRouter.post("/product/promote/update", requireAdmin, productPromotedUpdate)
-productRouter.post("/product/promote/revoke", requireAdmin, productPromotedRevoke)
+productRouter.get("/product/promoted/update", requireAdmin, productPromotedUpdate)
+
 productRouter.post("/product/promote/delete", requireAdmin, productPromotedDelete)
 productRouter.get("/products/promoted", promotedProducts)
 

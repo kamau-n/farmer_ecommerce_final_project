@@ -5,7 +5,9 @@ import { Product } from "../models/product.model";
 import multer from "multer";
 import { Image } from "../models/images.model";
 import { Promoted } from "../models/promoted.model";
+
 import exp from "constants";
+import { deletesImage } from "../services/deleteImage";
 
 
 
@@ -273,7 +275,6 @@ export const imageUpload = async (req: Request, res: Response) => {
     }
     else {
 
-
         const length = req.files.length;
 
         //@ts-ignore
@@ -305,7 +306,12 @@ export const deleteImage = async (req: Request, res: Response) => {
             .where("image_id =:id", { id: req.body.delete_id })
             .execute()
 
-        delele_image.affected! > 0 ? res.json({ msg: "Image deleted Successfully", deleted: true }) : res.status(200).json({ msg: "Unable to delete the image", deleted: false })
+
+
+        console.log(delele_image)
+        delele_image.affected! > 0
+            //&& deletesImage(`localhost:8000/uploads/${req.body.url}`)
+            ? res.json({ msg: "Image deleted Successfully", deleted: true }) : res.status(200).json({ msg: "Unable to delete the image", deleted: false })
     } catch (error) {
         console.log(error)
         res.status(200).json({ msg: "Unable to delete the image", deleted: false })
@@ -378,101 +384,78 @@ export const promotedProduct = async (req: Request, res: Response) => {
 
 // route for changing the status of an promoted products
 export const productPromotedUpdate = async (req: Request, res: Response) => {
-    console.log(req.body)
+    console.log(req.query)
 
 
-    try {
-        const promoted = await appDataSource.createQueryBuilder()
-            .update(Promoted)
-            .set({ promoted_product_status: "approved" })
-            .where("promoted_id =:promoted_id", { promoted_id: req.body.promoted_id })
-            .execute()
 
-        console.log(promoted)
+    if (req.query.promoted_id == null || req.query.new_state == null || req.query.product_id == null) {
+        res.json({ msg: "approval Failed ,Product Not Found", approved: false })
 
-        if (promoted.affected! > 0) {
-            console.log("updated a promoted column")
-            const update_product = await appDataSource.createQueryBuilder()
-                .update(Product)
-                .set({ product_promoted: true })
-                .where("product_id = :product_id", { product_id: req.body.product_id })
+    }
+    else {
+
+        //  res.send(req.query.promoted_id)
+        try {
+            const promoted = await appDataSource.createQueryBuilder()
+                .update(Promoted)
+                .set({ promoted_product_status: req.query.new_state })
+                .where("promoted_id =:promoted_id", { promoted_id: req.query.promoted_id })
                 .execute()
 
-            console.log(update_product)
+            console.log(promoted)
 
-            // @ts-ignore
-            update_product.affected > 0 ? res.json({ msg: "approved Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false })
+            if (promoted.affected! > 0 && req.query.new_state == "revoked") {
+                console.log("revoked a promoted column")
+                const update_product = await appDataSource.createQueryBuilder()
+                    .update(Product)
+                    .set({ product_promoted: false })
+                    .where("product_id = :product_id", { product_id: req.query.product_id })
+                    .execute()
+
+                console.log(update_product)
+
+                // @ts-ignore
+                update_product.affected > 0 ? res.json({ msg: "Revoked Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false })
+            }
+            else if (promoted.affected! > 0 && req.query.new_state == "approved") {
+                console.log("approved a promoted column")
+                const update_product = await appDataSource.createQueryBuilder()
+                    .update(Product)
+                    .set({ product_promoted: true })
+                    .where("product_id = :product_id", { product_id: req.query.product_id })
+                    .execute()
+
+                console.log(update_product)
+
+                // @ts-ignore
+                update_product.affected > 0 ? res.json({ msg: "Approved Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false })
+            }
+            else {
+                res.json({ msg: "approval failed", approved: false })
+
+            }
+
+
+
+
+
+
+
         }
-        else {
-            res.json({ msg: "approval failed", approved: false })
+
+
+
+
+        catch (error) {
+            console.log(error)
+            res.json({ msg: "approval Failed", approved: false })
 
         }
-
-
-
-
-
-
-
     }
-
-
-
-
-    catch (error) {
-        console.log(error)
-        res.json({ msg: "approval Failed", approved: false })
-
-    }
-
 
 }
 
-// a route for revoking a promoted product
-export const productPromotedRevoke = async (req: Request, res: Response) => {
-    try {
-        const promoted = await appDataSource.createQueryBuilder()
-            .update(Promoted)
-            .set({ promoted_product_status: "revoked" })
-            .where("promoted_id =:promoted_id", { promoted_id: req.body.promoted_id })
-            .execute()
 
-        console.log(promoted)
-
-        if (promoted.affected! > 0) {
-            console.log("updated a promoted column")
-            const update_product = await appDataSource.createQueryBuilder()
-                .update(Product)
-                .set({ product_promoted: false })
-                .where("product_id = :product_id", { product_id: req.body.product_id })
-                .execute()
-
-            console.log(update_product)
-
-            // @ts-ignore
-            update_product.affected > 0 ? res.json({ msg: "revoked Successfully", revoked: true }) : res.json({ msg: "approval failed", revoked: false })
-        }
-        else {
-            res.json({ msg: "revoked failed", revoked: false })
-
-        }
-
-
-
-
-
-
-
-
-    }
-    catch (err) {
-        console.log(err)
-
-        res.json({ msg: "revoked failed", revoked: false })
-
-    }
-
-}
 
 
 // a route for deleting a promoted product

@@ -16,6 +16,9 @@ export class Complaints {
     @Column("text")
     complaint_name!: string
 
+    @Column({ nullable: false })
+    complaint_login_id!: string
+
     @Column("text")
     @IsEmail()
 

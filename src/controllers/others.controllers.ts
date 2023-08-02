@@ -6,7 +6,12 @@ import { Complaints } from "../models/complaints.model"
 export const setComplaint = async (req: Request, res: Response) => {
     console.log("posting complaint")
     console.log(req.body)
+
+    //@ts-ignore  
+
+
     try {
+
         const save_message = await appDataSource.getRepository(Complaints).save(req.body)
         res.json({ msg: " Message/complaint post successfully", posted: true })
 

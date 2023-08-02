@@ -13,7 +13,7 @@ export const appDataSource = new DataSource({
     database: "Farmers_Ecommerce",
     username: "root",
     password: "",
-    logging: false,
+    //logging: true,
     synchronize: true,
     entities: [Login, Product, Image, Messages, ChatRoom, Complaints, Promoted]
 
