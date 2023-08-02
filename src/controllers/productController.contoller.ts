@@ -512,25 +512,31 @@ export const productPromotedDelete = async (req: Request, res: Response) => {
 // this is a controller for searching products by category
 
 export const productCategory = async (req: Request, res: Response) => {
-    console.log(req.body)
+    console.log(req.query)
     const productsRepo = appDataSource.getRepository(Product)
-
-    try {
-        const products = await productsRepo.find({
-            where: {
-                product_category: req.body.category
-            },
-            relations: {
-                image: true
-            }
-        }
-
-        );
-        res.send(products)
-        //console.log(products)
-    } catch (error) {
+    if (req.query.category == null) {
         res.send([])
+    }
+    else {
 
+        try {
+            const products = await productsRepo.find({
+                //@ts-ignore
+                where: {
+                    product_category: req.query.category
+                },
+                relations: {
+                    image: true
+                }
+            }
+
+            );
+            res.send(products)
+            //console.log(products)
+        } catch (error) {
+            res.send([])
+
+        }
     }
 
 

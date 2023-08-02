@@ -33,7 +33,7 @@ productRouter.get("/products/promoted/:id", requireUser, getUserPromoted)
 
 productRouter.post("/product/images/upload", upload, imageUpload)
 productRouter.get("/product/:id", getProductById)
-productRouter.post("/products/category", productCategory)
+productRouter.get("/products/category/search", productCategory)
 productRouter.get("/products/user", requireUser, getUserProducts)
 productRouter.post("/products/user/id", requireAdmin, userById)
 productRouter.post("/product/delete", requireUser, deleteProduct)
