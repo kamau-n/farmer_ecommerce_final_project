@@ -3,6 +3,7 @@ import { Login } from "./login.model";
 import { Image } from "./images.model";
 
 import { Promoted } from "./promoted.model";
+import { Payments } from "./payments.model";
 
 @Entity()
 export class Product {
@@ -50,6 +51,11 @@ export class Product {
 
     @OneToOne(type => Promoted, (promoted) => promoted.product, { onDelete: "CASCADE" })
     promoted!: Promoted;
+
+
+    @OneToOne(type => Payments, (payments) => payments.product, { onDelete: "CASCADE" })
+    payments!: Payments;
+
 
 
 

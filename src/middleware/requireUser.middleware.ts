@@ -5,13 +5,12 @@ export const requireUser = (req: Request, res: Response, next: NextFunction) => 
     const { accessToken, refreshToken } = req.cookies;
 
     if (!accessToken && !refreshToken) {
-        console.log("there is no user")
+
         res.status(200).json({ msg: "unauthorized access", authenticated: false })
 
     }
     else {
-        console.log("Trying to authenticate a user")
-        console.log("there is a user logged in")
+
         const decode = jwt.verify(accessToken || refreshToken, "i hve a secret")
         if (decode) {
             // @ts-ignore

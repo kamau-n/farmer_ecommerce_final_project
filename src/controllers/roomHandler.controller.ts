@@ -6,8 +6,25 @@ import { Messages } from "../models/messages.model"
 
 
 export const createRoom = async (req: Request, res: Response) => {
+    console.log("creating chat room")
     const roomRepo = appDataSource.getRepository(ChatRoom)
-    console.log(req.body)
+
+    const isPresent = await appDataSource.getRepository(ChatRoom).find({
+        where: [{
+            room_chat_receiver: req.body.room_chat_receiver,
+            room_chat_sender: req.body.room_chat_sender,
+            //@ts-ignore
+            room_chat_receiver: req.user.id,
+            //@ts-ignore
+            room_chat_sender: req.user.id
+
+        }]
+    })
+
+    // console.log(isPresent)
+    // req.body.room_chat_receiver
+
+    //console.log(req.body)
 
     try {
 
@@ -118,6 +135,24 @@ export const mediaUpload = (req: Request, res: Response) => {
 // }
 
 // a router for deleting a conversion
+
+
+export const getChatRoomData = async (req: Request, res: Response) => {
+    try {
+
+        const chatData = await appDataSource.getRepository(ChatRoom).findOne({
+            //@ts-ignore
+            where: {
+                room_id: req.query.id
+            }
+        })
+        res.send(chatData)
+    } catch (error) {
+        res.send({})
+
+    }
+
+}
 
 
 export const deleteConversation = async (req: Request, res: Response) => {

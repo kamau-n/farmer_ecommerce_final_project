@@ -4,6 +4,7 @@ import { Messages } from "./messages.model";
 import { ChatRoom } from "./room.model";
 import { Complaints } from "./complaints.model";
 import { IsEmail } from "class-validator";
+import { Payments } from "./payments.model";
 
 
 @Entity()
@@ -55,6 +56,13 @@ export class Login {
 
     @OneToOne(type => Messages, (messages) => messages.login, { onDelete: "CASCADE" })
     messages!: Messages[]
+
+
+    @OneToOne(type => Payments, (payments) => payments.login, { onDelete: "CASCADE" })
+    payments!: Payments[]
+
+
+
 
 
 

@@ -56,7 +56,7 @@ export const uploadProduct = async (req: Request, res: Response) => {
 
 export const getProductById = async (req: Request, res: Response) => {
 
-    console.log(req.params)
+
 
     try {
         const productRepo = await appDataSource.getRepository(Product)
@@ -91,8 +91,6 @@ export const getProductById = async (req: Request, res: Response) => {
 export const getProducts = async (req: Request, res: Response) => {
 
     const productsRepo = appDataSource.getRepository(Product)
-    console.log(req.query)
-    console.log(req.query.region?.length)
 
     if (req.query.category == " " && req.query.region == '') {
         try {
@@ -112,7 +110,7 @@ export const getProducts = async (req: Request, res: Response) => {
     }
 
     else if (req.query.region?.length == 0 && req.query.category !== " ") {
-        console.log("i have a category but not a region")
+
         try {
             const products = await productsRepo.find({
                 //@ts-ignore
@@ -197,7 +195,7 @@ export const getProducts = async (req: Request, res: Response) => {
 // a controller for getting products by userId
 
 export const userById = async (req: Request, res: Response) => {
-    console.log(req.body)
+
     try {
 
         const productRepo = await appDataSource.getRepository(Product)
@@ -325,7 +323,7 @@ export const deleteImage = async (req: Request, res: Response) => {
 
 export const promoteProduct = async (req: Request, res: Response) => {
 
-    console.log(req.body)
+
 
     try {
 
@@ -350,7 +348,7 @@ export const promoteProduct = async (req: Request, res: Response) => {
 
 
 export const promotedProduct = async (req: Request, res: Response) => {
-    console.log("getting promoted Products")
+
     try {
 
 
@@ -360,16 +358,10 @@ export const promotedProduct = async (req: Request, res: Response) => {
                     product_promoted: true
                 },
                 relations: {
-                    image: true
+                    image: true,
+
                 }
             })
-
-
-
-
-
-        console.log(products)
-
 
         res.send(products)
 
@@ -426,6 +418,8 @@ export const productPromotedUpdate = async (req: Request, res: Response) => {
                     .execute()
 
                 console.log(update_product)
+
+
 
                 // @ts-ignore
                 update_product.affected > 0 ? res.json({ msg: "Approved Successfully", approved: true }) : res.json({ msg: "approval failed", approved: false })
@@ -512,7 +506,7 @@ export const productPromotedDelete = async (req: Request, res: Response) => {
 // this is a controller for searching products by category
 
 export const productCategory = async (req: Request, res: Response) => {
-    console.log(req.query)
+
     const productsRepo = appDataSource.getRepository(Product)
     if (req.query.category == null) {
         res.send([])
@@ -663,6 +657,31 @@ export const getUserPromoted = async (req: Request, res: Response) => {
                 where: {
                     product_login_id: req.params.id,
                     product_promoted: true
+                }
+                , relations: {
+                    image: true,
+                    login: true,
+                }
+
+            })
+        products == null ? res.send([]) : res.send(products)
+    } catch (error) {
+        res.send([])
+        console.log(error)
+
+    }
+
+}
+
+
+// geting a user non promoted products
+export const getUserNonPromoted = async (req: Request, res: Response) => {
+    try {
+        const products = await appDataSource.getRepository(Product)
+            .find({
+                where: {
+                    product_login_id: req.params.id,
+                    product_promoted: false
                 }
                 , relations: {
                     image: true,

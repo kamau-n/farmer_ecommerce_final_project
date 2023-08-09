@@ -6,6 +6,7 @@ import { Messages } from "../models/messages.model";
 import { ChatRoom } from "../models/room.model";
 import { Complaints } from "../models/complaints.model";
 import { Promoted } from "../models/promoted.model";
+import { Payments } from "../models/payments.model";
 
 
 export const appDataSource = new DataSource({
@@ -15,7 +16,7 @@ export const appDataSource = new DataSource({
     password: "",
     //logging: true,
     synchronize: true,
-    entities: [Login, Product, Image, Messages, ChatRoom, Complaints, Promoted]
+    entities: [Login, Product, Image, Messages, ChatRoom, Complaints, Promoted, Payments]
 
 
 

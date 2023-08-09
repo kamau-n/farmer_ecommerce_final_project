@@ -1,29 +1,14 @@
 const bcrypt = require("bcrypt");
 
 export const encryptPassword = async (password: string) => {
-
-    console.log(password)
-
     try {
-        console.log("password is " + password)
-
 
         let hashed_password = await bcrypt.hash(password, 10);
-
-
-
-
-
         const hashed = await hashed_password
-
-        console.log(hashed)
         return hashed;
-
-
 
     }
     catch (err) {
-        console.log(err)
         return "there is an error"
     }
 
