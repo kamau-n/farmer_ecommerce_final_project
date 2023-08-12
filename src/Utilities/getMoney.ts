@@ -4,7 +4,7 @@ export const getMoney = (package_name: String): Number => {
         return 800;
 
     }
-    else if (package_name == "sliver") {
+    else if (package_name == "silver") {
         return 500;
 
     }

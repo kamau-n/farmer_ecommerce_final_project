@@ -30,6 +30,7 @@ export const uploadProduct = async (req: Request, res: Response) => {
         const insert_object = req.body;
         //@ts-ignore
         insert_object['product_login_id'] = req.user.id
+        insert_object['product_promoted'] = false;
         console.log(insert_object)
 
         const product = await appDataSource.createQueryBuilder()
@@ -295,6 +296,7 @@ export const imageUpload = async (req: Request, res: Response) => {
 
 
 export const deleteImage = async (req: Request, res: Response) => {
+    console.log("deleting image")
     console.log(req.body)
     try {
 
@@ -305,10 +307,8 @@ export const deleteImage = async (req: Request, res: Response) => {
             .execute()
 
 
-
         console.log(delele_image)
         delele_image.affected! > 0
-            //&& deletesImage(`localhost:8000/uploads/${req.body.url}`)
             ? res.json({ msg: "Image deleted Successfully", deleted: true }) : res.status(200).json({ msg: "Unable to delete the image", deleted: false })
     } catch (error) {
         console.log(error)
@@ -676,10 +676,13 @@ export const getUserPromoted = async (req: Request, res: Response) => {
 
 // geting a user non promoted products
 export const getUserNonPromoted = async (req: Request, res: Response) => {
+    console.log("we are getting non promoted items")
+    console.log(req.params)
     try {
         const products = await appDataSource.getRepository(Product)
             .find({
                 where: {
+
                     product_login_id: req.params.id,
                     product_promoted: false
                 }
