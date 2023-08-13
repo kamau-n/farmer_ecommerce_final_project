@@ -30,6 +30,10 @@ export class Product {
     @Column({ nullable: true })
     product_location!: string;
 
+
+    @Column({ nullable: true })
+    product_price_unit!: string;
+
     @Column({ nullable: true })
     product_promoted!: boolean;
 

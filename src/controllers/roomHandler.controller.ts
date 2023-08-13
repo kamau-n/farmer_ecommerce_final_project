@@ -7,45 +7,49 @@ import { Messages } from "../models/messages.model"
 
 export const createRoom = async (req: Request, res: Response) => {
     console.log("creating chat room")
+    console.log(req.body)
     const roomRepo = appDataSource.getRepository(ChatRoom)
 
-    const isPresent = await appDataSource.getRepository(ChatRoom).find({
-        where: [{
-            room_chat_receiver: req.body.room_chat_receiver,
-            room_chat_sender: req.body.room_chat_sender,
-            //@ts-ignore
-            room_chat_receiver: req.user.id,
-            //@ts-ignore
-            room_chat_sender: req.user.id
+    const isPresent = await appDataSource.createQueryBuilder()
+        .select()
+        .from(ChatRoom, "chatroom")
+        //@ts-ignore
+        // .where('chatroom.room_chat_sender  =: sender_id', { sender_id: req.user.id })
+        .where('chatroom.room_chat_receiver =:receiver_id', { receiver_id: req.body.room_chat_receiver })
+        //@ts-ignore
+        .orWhere('chatroom.room_chat_sender =:id', { id: req.body.room_chat_receiver })
+        .getMany()
 
-        }]
-    })
 
-    // console.log(isPresent)
-    // req.body.room_chat_receiver
+
+    console.log(isPresent)
+    req.body.room_chat_receiver
+
+
+    res.send("hello")
 
     //console.log(req.body)
 
-    try {
+    // try {
 
-        const room_object = req.body;
-        //@ts-ignore
-        room_object['room_chat_sender'] = req.user.id
+    //     const room_object = req.body;
+    //     //@ts-ignore
+    //     room_object['room_chat_sender'] = req.user.id
 
-        //@ts-ignore
-        req.user.role == "Admin" ? room_object["room_chat_sender_name"] = "Admin" : room_object["room_chat_sender_name"] = req.user.name
-        room_object["room_chat_receiver_name"] = req.body.room_chat_receiver_name
-        room_object["room_chat_receiver"] - req.body.room_chat_receiver
-        console.log(room_object)
-        const roomCreated = await roomRepo.save(room_object)
+    //     //@ts-ignore
+    //     req.user.role == "Admin" ? room_object["room_chat_sender_name"] = "Admin" : room_object["room_chat_sender_name"] = req.user.name
+    //     room_object["room_chat_receiver_name"] = req.body.room_chat_receiver_name
+    //     room_object["room_chat_receiver"] - req.body.room_chat_receiver
+    //     console.log(room_object)
+    //     const roomCreated = await roomRepo.save(room_object)
 
-        res.json(roomCreated.room_id)
+    //     res.json(roomCreated.room_id)
 
-    } catch (error) {
-        console.log(error)
-        res.send("unable to create a room")
+    // } catch (error) {
+    //     console.log(error)
+    //     res.send("unable to create a room")
 
-    }
+    // }
 
 
 }
