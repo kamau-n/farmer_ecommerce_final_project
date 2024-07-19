@@ -1,5 +1,6 @@
 ## Final Project
 ### Technologies Used 
- - Socket IO
+ - Socket I/O
  - Type Orm
  - MUI
+ - 
