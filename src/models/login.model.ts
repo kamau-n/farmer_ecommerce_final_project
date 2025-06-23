@@ -5,6 +5,7 @@ import { ChatRoom } from "./room.model";
 import { Complaints } from "./complaints.model";
 import { IsEmail } from "class-validator";
 import { Payments } from "./payments.model";
+import { Dp_image } from "./dp.model";
 
 
 @Entity()
@@ -43,6 +44,11 @@ export class Login {
 
     @OneToMany(type => Product, (product) => product.login, { onDelete: "CASCADE" })
     product!: Product[];
+
+
+
+    @OneToMany(type => Dp_image, (dp_image) => dp_image.login, { onDelete: "CASCADE" })
+    dp_image!: Dp_image[];
 
 
 

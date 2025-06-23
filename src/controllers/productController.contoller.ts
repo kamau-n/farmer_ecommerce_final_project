@@ -263,14 +263,14 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
 export const imageUpload = async (req: Request, res: Response) => {
 
-    //@ts-ignore
-    //  console.log(req.files)
-    // console.log((req.body))
+
+    console.log(req.files)
+    console.log((req.body))
 
     const imageRepo = appDataSource.getRepository(Image)
 
     if (!req.files) {
-        res.send("unable to uploads images")
+        res.json({ sg: "unable to uploads images", upload: false })
     }
     else {
 
@@ -591,8 +591,6 @@ export const promotedProducts = async (req: Request, res: Response,) => {
 
 // a controller for updating a product 
 export const productUpdate = async (req: Request, res: Response) => {
-    console.log("Updating a product")
-    console.log(req.body)
 
     const updated_product = req.body;
 
@@ -608,7 +606,10 @@ export const productUpdate = async (req: Request, res: Response) => {
             //@ts-ignore
             updated_product.name = product.product_name
 
-
+        }
+        if (updated_product.unitPrice == "") {
+            //@ts-ignore
+            updated_product.name = product.product_price_unit
 
         }
         if (updated_product.location == "") {

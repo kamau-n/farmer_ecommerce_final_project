@@ -7,17 +7,28 @@ import { ChatRoom } from "../models/room.model";
 import { Complaints } from "../models/complaints.model";
 import { Promoted } from "../models/promoted.model";
 import { Payments } from "../models/payments.model";
-
+import { Promotion_packages } from "../models/adpackage.model";
+import { Dp_image } from "../models/dp.model";
 
 export const appDataSource = new DataSource({
-    type: "mysql",
-    database: "Farmers_Ecommerce",
-    username: "root",
-    password: "",
-    //logging: true,
-    synchronize: true,
-    entities: [Login, Product, Image, Messages, ChatRoom, Complaints, Promoted, Payments]
-
-
-
-})
+  host: "127.0.0.1",
+  type: "mysql",
+  database: "Farmers_Ecommerce",
+  username: "kamau",
+  password: "kamau016",
+  port: 3306,
+  //logging: true,
+  synchronize: true,
+  entities: [
+    Login,
+    Product,
+    Image,
+    Messages,
+    ChatRoom,
+    Complaints,
+    Promoted,
+    Payments,
+    Promotion_packages,
+    Dp_image,
+  ],
+});

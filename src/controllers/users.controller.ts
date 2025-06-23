@@ -3,14 +3,14 @@ import { appDataSource } from "../connection/configuration";
 import { Login } from "../models/login.model";
 import assert from "assert";
 import { encryptPassword } from "../Utilities/functions/encrypt.function";
+import { Dp_image } from "../models/dp.model";
 
 
 
 //getting all Users
 
 export const getAllUSers = async (req: Request, res: Response) => {
-    console
-        .log(req.query)
+    console.log(req.query)
 
     if (req.query.role?.length == 0) {
         console.log("no roles supplied")
@@ -67,6 +67,57 @@ export const getAllUSers = async (req: Request, res: Response) => {
 }
 
 
+// uploading a user dp image
+
+export const uploadUserDp = async (req: Request, res: Response) => {
+
+
+    console.log(req.file)
+
+
+    if (req.file == null) {
+
+
+        res.json({ msg: "no image to upload", uploaded: false })
+
+    }
+    else {
+
+
+
+        console.log("here is the user")
+        //@ts-ignore
+        console.log(req.user)
+        try {
+            const new_dp_image = {
+
+
+                //@ts-ignore
+                dp_login_id: req.user.id,
+                dp_url: req.file.originalname
+            }
+
+            console.log(new_dp_image)
+
+            const new_dp = await appDataSource.getRepository(Dp_image).save(
+                new_dp_image
+
+
+            )
+
+            new_dp != null ? res.json({ msg: "image uploaded successfull", upload: true }) :
+                res.json({ msg: "unable to upload the image", uploaded: false })
+
+
+        } catch (error) {
+            console.log(error)
+            res.json({ msg: "unable to upload the image", uploaded: false })
+
+        }
+    }
+
+
+}
 // updating user Details
 
 

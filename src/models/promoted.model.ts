@@ -2,6 +2,7 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Product } from "./product.model";
 import { Payments } from "./payments.model";
+import { Promotion_packages } from "./adpackage.model";
 
 @Entity()
 export class Promoted {
@@ -15,7 +16,7 @@ export class Promoted {
     promoted_product_status!: string;
 
     @Column()
-    promoted_product_package!: string;
+    promoted_product_package_id!: string;
 
     @Column()
     promoted_product_payment_option!: string;
@@ -24,6 +25,11 @@ export class Promoted {
     @OneToOne(type => Product, (product) => product.promoted, { onDelete: "CASCADE" })
     @JoinColumn({ name: "promoted_product_id" })
     product!: Product;
+
+
+    @OneToOne(type => Promotion_packages, (promotion_packages) => promotion_packages.promoted, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "promoted_product_package_id" })
+    promotion_packages!: Promotion_packages;
 
 
     @OneToMany(type => Payments, (payments) => payments.promoted, { onDelete: "CASCADE" })

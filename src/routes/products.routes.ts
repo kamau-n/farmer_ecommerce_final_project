@@ -8,8 +8,6 @@ import { requireAdmin } from "../middleware/requireAdmin.middleware";
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "uploads/");
-
-
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + "_" + Math.random() * 1e9

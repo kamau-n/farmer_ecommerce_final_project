@@ -1,19 +1,31 @@
-export const getMoney = (package_name: String): Number => {
-    console.log("package is : " + package_name)
-    if (package_name == "gold") {
-        return 800;
+import axios from "axios";
 
-    }
-    else if (package_name == "silver") {
-        return 500;
+export const getMoney = async (package_id: any) => {
+    console.log("package is : " + package_id)
 
-    }
-    else if (package_name == "bronze") {
-        return 300;
+    // let packages: any = [];
 
-    }
-    else {
-        return 0;
+    const packages_data = await axios.get("http://localhost:8000/packages")
+    let packages = packages_data.data;
+    // .then((res) => {
+    //     let packages = res.data;
+
+
+    // })
+
+    console.log("here are the packages")
+
+    console.log(packages)
+    for (let i = 0; i < packages.length; i++) {
+        if (package_id == packages[i].package_id) {
+            return (packages[i].package_price);
+
+        }
+
+        else {
+            return 0;
+        }
+
     }
 
 }

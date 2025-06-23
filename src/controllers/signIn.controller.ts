@@ -3,6 +3,7 @@ import { appDataSource } from "../connection/configuration";
 import { Login } from "../models/login.model";
 import { decryptPassword } from "../Utilities/functions/encrypt.function";
 import jwt, { Secret } from "jsonwebtoken"
+import { Dp_image } from "../models/dp.model";
 
 
 
@@ -21,77 +22,83 @@ export const getUser = (req: Request, res: Response) => {
 //signing in a user
 
 export const signIn = async (req: Request, res: Response) => {
+
+
+
     try {
 
-
-        try {
-            const User = await appDataSource.createQueryBuilder()
-                .select()
-                .from(Login, 'login')
-                .where("login.login_email=:email", { email: req.body.login_email })
-                .execute()
-
-
-            const new_user = User[0];
-
-            if (User.length != 0) {
-                if (await decryptPassword(req.body.login_password, new_user.login_password)) {
-                    console.log("authentication successfull")
-
-                    const accessToken = jwt.sign({
-                        id: new_user.login_id,
-                        name: new_user.login_username,
-                        address: new_user.login_location,
-                        email: new_user.login_email,
-                        role: new_user.login_role,
-                        contact: new_user.login_contact
-                    }, "i hve a secret", { expiresIn: "1h" })
-
-                    const refreshToken = jwt.sign({
-                        id: new_user.login_id,
-                        name: new_user.login_username,
-                        address: new_user.login_location,
-                        email: new_user.login_email,
-                        role: new_user.login_role,
-                        contact: new_user.login_contact
-                    }, "i hve a secret", { expiresIn: "1y" })
+        const User = await appDataSource.getRepository(Login).findOne({
+            where: {
+                login_email: req.body.login_email
+            },
+            relations: {
+                dp_image: true
+            }
+        })
 
 
 
-                    res.cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true, secure: false }).cookie("refreshToken", refreshToken, { maxAge: 1000 * 60 * 60 * 24 * 7 * 12, httpOnly: true, secure: false }).json({
-                        authenticated: true, msg: "login successfull", role: new_user.login_role
-                    })
+        console.log(User)
+
+        if (User && User.login_email.length > 0) {
+            if (await decryptPassword(req.body.login_password, User!.login_password)) {
+                console.log("authentication successfull")
+
+                const accessToken = jwt.sign({
+                    id: User.login_id,
+                    name: User.login_username,
+                    address: User.login_location,
+                    email: User.login_email,
+                    role: User.login_role,
+                    contact: User.login_contact,
+                    dp: User.dp_image[0] ? User.dp_image[0].dp_url : " "
+                }, "i hve a secret", { expiresIn: "1h" })
+
+                const refreshToken = jwt.sign({
+                    id: User.login_id,
+                    name: User.login_username,
+                    address: User.login_location,
+                    email: User.login_email,
+                    role: User.login_role,
+                    contact: User.login_contact,
+                    dp: User.dp_image[0] ? User.dp_image[0].dp_url : " "
+                }, "i hve a secret", { expiresIn: "1y" })
+
+                console.log("am setting the ccookie")
 
 
+                res.cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true, secure: false }).cookie("refreshToken", refreshToken, { maxAge: 1000 * 60 * 60 * 24 * 7 * 12, httpOnly: true, secure: false }).json({
+                    authenticated: true, msg: "login successfull", role: User!.login_role
+                })
 
-                }
-                else {
-                    res.json({ authenticated: false, msg: "Unable to authenticate  user ,wrong password " })
-                    console.log("wrong password")
-
-                }
 
 
             }
             else {
-                res.json({ authenticated: false, msg: "Unable to authenticate  user ,user does not exist " })
+                res.json({ authenticated: false, msg: "Unable to authenticate  user ,wrong password " })
+                console.log("wrong password")
 
             }
 
-            // res.json({ created: true, msg: "User authenticated  Successfully" })
 
-        } catch (error) {
-            res.json({ created: false, msg: "Unable to authenticate  user ,user valid email " })
-
+        }
+        else {
+            res.json({ authenticated: false, msg: "Unable to authenticate  user ,user does not exist " })
 
         }
 
-
+        // res.json({ created: true, msg: "User authenticated  Successfully" })
 
     } catch (error) {
-        res.json({ msg: "ubable to login" })
+        console.log(error)
+        res.json({ created: false, msg: "Unable to authenticate  user ,user valid email " })
+
 
     }
+
+
+
+
 
 
 

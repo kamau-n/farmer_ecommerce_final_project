@@ -22,34 +22,31 @@ export const createRoom = async (req: Request, res: Response) => {
 
 
 
-    console.log(isPresent)
-    req.body.room_chat_receiver
 
 
-    res.send("hello")
 
     //console.log(req.body)
 
-    // try {
+    try {
 
-    //     const room_object = req.body;
-    //     //@ts-ignore
-    //     room_object['room_chat_sender'] = req.user.id
+        const room_object = req.body;
+        //@ts-ignore
+        room_object['room_chat_sender'] = req.user.id
 
-    //     //@ts-ignore
-    //     req.user.role == "Admin" ? room_object["room_chat_sender_name"] = "Admin" : room_object["room_chat_sender_name"] = req.user.name
-    //     room_object["room_chat_receiver_name"] = req.body.room_chat_receiver_name
-    //     room_object["room_chat_receiver"] - req.body.room_chat_receiver
-    //     console.log(room_object)
-    //     const roomCreated = await roomRepo.save(room_object)
+        //@ts-ignore
+        req.user.role == "Admin" ? room_object["room_chat_sender_name"] = "Admin" : room_object["room_chat_sender_name"] = req.user.name
+        room_object["room_chat_receiver_name"] = req.body.room_chat_receiver_name
+        room_object["room_chat_receiver"] - req.body.room_chat_receiver
+        console.log(room_object)
+        const roomCreated = await roomRepo.save(room_object)
 
-    //     res.json(roomCreated.room_id)
+        res.json(roomCreated.room_id)
 
-    // } catch (error) {
-    //     console.log(error)
-    //     res.send("unable to create a room")
+    } catch (error) {
+        console.log(error)
+        res.send("unable to create a room")
 
-    // }
+    }
 
 
 }
