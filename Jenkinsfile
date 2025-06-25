@@ -45,9 +45,9 @@ pipeline {
   stage('Restart systemd Service') {
         steps {
        sh '''
-      sudo -n /usr/bin/systemctl daemon-reload
-      sudo -n /usr/bin/systemctl restart farmers.service
-      sudo -n /usr/bin/systemctl status farmers.service --no-pager
+      /usr/bin/sudo -n /usr/bin/systemctl daemon-reload
+      /usr/bin/sudo -n /usr/bin/systemctl restart farmers.service
+      /usr/bin/sudo -n /usr/bin/systemctl status farmers.service --no-pager
     '''
   }
 }
