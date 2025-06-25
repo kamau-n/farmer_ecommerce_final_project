@@ -31,15 +31,15 @@ pipeline {
       }
     }
 
-    stage('Restart systemd Service') {
-      steps {
-        sh '''
-          sudo systemctl daemon-reload
-          sudo systemctl restart $SERVICE_NAME
-          sudo systemctl status $SERVICE_NAME --no-pager
-        '''
-      }
-    }
+ stage('Restart Service') {
+  steps {
+    sh '''
+      sudo -n /usr/bin/systemctl daemon-reload
+      sudo -n /usr/bin/systemctl restart farmers.service
+      sudo -n /usr/bin/systemctl status farmers.service --no-pager
+    '''
+  }
+}
   }
 
   post {
