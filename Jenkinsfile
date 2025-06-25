@@ -34,7 +34,6 @@ pipeline {
     stage('Restart systemd Service') {
       steps {
         sh '''
-           systemctl daemon-reload
            systemctl restart $SERVICE_NAME
            systemctl status $SERVICE_NAME --no-pager
         '''
