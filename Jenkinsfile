@@ -31,11 +31,23 @@ pipeline {
       }
     }
 
+    stage('Debug Whoami & Sudo') {
+      steps {
+           sh '''
+          echo "Running as: $(whoami)"
+          id
+          sudo -n -l
+    '''
+        }
+       }
+
+
     stage('Restart systemd Service') {
       steps {
         sh '''
-           systemctl restart $SERVICE_NAME
-           systemctl status $SERVICE_NAME --no-pager
+          sudo -n systemctl daemon-reload
+           sudo -n systemctl restart $SERVICE_NAME
+           sudo -n systemctl status $SERVICE_NAME --no-pager
         '''
       }
     }
