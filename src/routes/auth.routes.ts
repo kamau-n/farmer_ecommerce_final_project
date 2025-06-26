@@ -58,28 +58,27 @@ authRouter.post("/login", signIn);
  *           schema:
  *             type: object
  *             required:
- *          login_email,
-            login_role,
-            login_contact,
-            login_location,
-            login_password,
-            login_username,
+ *               - login_email
+ *               - login_role
+ *               - login_contact
+ *               - login_location
+ *               - login_password
+ *               - login_username
  *             properties:
  *               login_username:
  *                 type: string
- *              login_email:
+ *               login_email:
  *                 type: string
  *                 format: email
  *               login_password:
  *                 type: string
  *                 format: password
  *               login_location:
- *                    type:string
+ *                 type: string
  *               login_role:
- *                      type:string
+ *                 type: string
  *               login_contact:
- *                       type:string
- *               
+ *                 type: string
  *     responses:
  *       201:
  *         description: User created successfully
