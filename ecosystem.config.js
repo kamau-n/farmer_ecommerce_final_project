@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "farmersapp",
-      script: "dist/index.js", // or your main entry file
+      script: "dist/app.js", 
       cwd: "/var/www/farmersapp",
       watch: false,
       env: {
