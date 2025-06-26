@@ -3,7 +3,8 @@ pipeline {
 
   environment {
     DEPLOY_PATH = '/var/www/farmersapp'
-    SERVICE_NAME = 'farmers.service'
+    PM2_CONFIG = 'ecosystem.config.js'
+    PM2_PROCESS_NAME = 'farmersapp'
   }
 
   stages {
@@ -13,53 +14,46 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Build (Optional)') {
       steps {
-        sh 'npm run build'
+        echo 'No build step for pure Node/Express app — skipping.'
       }
     }
 
     stage('Deploy to Local Directory') {
       steps {
         sh '''
-          sudo mkdir -p $DEPLOY_PATH
-          sudo rm -rf $DEPLOY_PATH/*
-          sudo cp -r ./* $DEPLOY_PATH/
-          sudo cp -r dist $DEPLOY_PATH/
-          sudo chown -R jenkins:jenkins $DEPLOY_PATH
+          mkdir -p $DEPLOY_PATH
+          rm -rf $DEPLOY_PATH/*
+          cp -r ./* $DEPLOY_PATH/
         '''
       }
     }
 
-    stage('Debug Whoami & Sudo') {
+    stage('Restart with PM2') {
       steps {
-           sh '''
-          echo "Running as: $(whoami)"
-          id
-          sudo -n -l
-    '''
-        }
-       }
+        sh '''
+          cd $DEPLOY_PATH
 
+          # Stop old process
+          pm2 delete $PM2_PROCESS_NAME || true
 
-  stage('Restart systemd Service') {
-        steps {
-       sh '''
-      /usr/bin/sudo -n /usr/bin/systemctl daemon-reload
-      /usr/bin/sudo -n /usr/bin/systemctl restart farmers.service
-      /usr/bin/sudo -n /usr/bin/systemctl status farmers.service --no-pager
-    '''
-  }
-}
+          # Start app using ecosystem config
+          pm2 start $PM2_CONFIG
 
+          # Save process list
+          pm2 save
+        '''
+      }
+    }
   }
 
   post {
     success {
-      echo 'Deployed and restarted via systemd successfully!'
+      echo '🚀 Deployment succeeded using PM2!'
     }
     failure {
-      echo 'Something went wrong with the deployment.'
+      echo '❌ Deployment failed.'
     }
   }
 }
