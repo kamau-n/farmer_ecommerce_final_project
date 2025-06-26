@@ -7,9 +7,9 @@ const authRouter = Router();
 
 /**
  * @swagger
- * /login:
+ * /register:
  *   post:
- *     summary: User login
+ *     summary: User registration
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -19,24 +19,29 @@ const authRouter = Router();
  *             type: object
  *             required:
  *               - login_email
+ *               - login_role
+ *               - login_contact
+ *               - login_location
  *               - login_password
+ *               - login_username
  *             properties:
- *              login_email:
+ *               login_username:
+ *                 type: string
+ *               login_email:
  *                 type: string
  *                 format: email
  *               login_password:
  *                 type: string
  *                 format: password
+ *               login_location:
+ *                 type: string
+ *               login_role:
+ *                 type: string
+ *               login_contact:
+ *                 type: string
  *     responses:
- *       200:
- *         description: Successful login
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
+ *       201:
+ *         description: User created successfully
  */
 authRouter.post("/login", signIn);
 
