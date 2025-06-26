@@ -11,11 +11,11 @@ import { Promotion_packages } from "../models/adpackage.model";
 import { Dp_image } from "../models/dp.model";
 
 export const appDataSource = new DataSource({
-  host: "127.0.0.1",
+  host: "84.54.23.87",
   type: "mysql",
   database: "Farmers_Ecommerce",
   username: "kamau",
-  password: "kamau016",
+  password: "Kamau_016",
   port: 3306,
   //logging: true,
   synchronize: true,
